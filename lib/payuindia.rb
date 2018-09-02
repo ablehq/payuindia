@@ -27,11 +27,14 @@ module PayuIndia
 
   class Helper
 
-    CHECKSUM_FIELDS = [ :txnid, :amount, :productinfo, :firstname, :email, :udf1, :udf2, :udf3, :udf4,
-                        :udf5, :udf6, :udf7, :udf8, :udf9, :udf10 ]
+    CHECKSUM_FIELDS = [ :key, :txnid, :amount, :productinfo, :firstname, :email, :udf1, :udf2, :udf3, :udf4,
+                        :udf5, :udf6, :udf7, :udf8, :udf9, :udf10, :salt ]
 
     def initialize(key, salt, options = {})
       @key, @salt, @options = key, salt, options
+      # Adding key and salt to @options as needed while calculating checksum
+      @options[:key] = key
+      @options[:salt] = salt
     end
 
     def form_fields
